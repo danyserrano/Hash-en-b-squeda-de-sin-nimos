@@ -11,6 +11,7 @@ public class Hash
 {
     private int cant;
     private ArrayList<String>[] table;
+    private Archivos file = new Archivos();
 
     
     //Constructor de la clase Hash
@@ -18,7 +19,7 @@ public class Hash
     {
         try{
             //Asignamos a cant la cantidad de espacios que contendrá nuestra tabla Hash
-            this.cant = Hash.calcEspacios();
+            this.cant = this.calcEspacios();
             System.out.println("Se han generado " + this.cant + " espacios");
             table = new ArrayList[this.cant]; //Inicializa la tabla
             for (int i = 0; i < table.length; i++)
@@ -41,8 +42,6 @@ public class Hash
                       'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u',
                       'v', 'w', 'x', 'y', 'z'}; //Vector con las letras del abecedario
         String[] archivos;
-        Archivos file = new Archivos();
-        
         /*Bucle que se realiza para cada letra
           Cada letra es una carpeta en el directorio de palabras*/
         for (int i = 0; i < abc.length; i++)
@@ -95,8 +94,8 @@ public class Hash
     //Agrega una palabra a la tabla hash en base a su definición
     public void agregaPalabra(String palabra) throws IOException
     {
-        Archivos archivo = new Archivos();
-        int index = this.hashFunction(archivo.leerArchivo(palabra));
+       
+        int index = this.hashFunction(file.leerArchivo(palabra));
         this.table[index].add(palabra);
     }
     
@@ -105,10 +104,9 @@ public class Hash
       número primo después de la cantidad de palabras/definiciones
       que se tiene guardadas, esto para garantizar una menor cantidad
       de colisiones. */
-    public static int calcEspacios() throws IOException
+    public int calcEspacios() throws IOException
     {
-        Archivos f = new Archivos();
-        return siguientePrimo(f.cuentaPalabras());
+        return siguientePrimo(file.cuentaPalabras());
     }
     
     
