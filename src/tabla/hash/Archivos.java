@@ -1,4 +1,3 @@
-
 package tabla.hash;
 
 import java.io.BufferedReader;
@@ -18,8 +17,13 @@ public class Archivos {
     private String linea;
     
     public String leerArchivo(String palabra) throws FileNotFoundException, IOException{
-        //Mando a buscar el archivo al disco D(AHI LO TENGO; LE PONES LA DIRECCION DE DONDE LO GUARDES)
+        //Mando a buscar el archivo a la carpeta que tiene como nombre la primera letra de la palabra
         String direccion = "palabras\\" + palabra.charAt(0) + "\\" + palabra;
+        
+        //Si la dirección no tiene al final la extensión del archivo, se lo agregamos.
+        if (!direccion.endsWith(".txt"))
+        { direccion += ".txt"; }
+        
         archivo = new File (direccion);
         //inicialización de la variable de lectura
         fr = new FileReader (archivo);
@@ -31,74 +35,28 @@ public class Archivos {
     //Retorna la cantidad de palabras almacenada en nuestro fichero
     public int cuentaPalabras() throws FileNotFoundException, IOException
     {
-        int cuenta = 0;
+        int cuenta = 0; //Contador de palabras
+        
+        /*En este archivo se guarda una palabra por definición
+          y se ha colocado una palabra por línea*/
         File file = new File("palabras\\palabras.txt");
         FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
         
+        //Bucle que cuenta la cantidad de líneas del archivo
         while(br.readLine() != null)
         {   cuenta++; }
         
+        //Retornamos la cantidad de líneas del archivo,
+        //que es igual a la cantidad de palabras
         return cuenta;
     }
     
-    //Retorna el nombre de los archivos dentro de la carpeta del parámetro
+    //Retorna el nombre de los archivos dentro de la carpeta especificada por parámetro
     public String[] nombreArchivos(String carpeta)
     {
         ArrayList<String> archivos = new ArrayList<String>();
         File file = new File("palabras\\" + carpeta);
         return file.list();
     }
-    
-    
-    public void separarr(){
-        //Este metodo es el que separa las palabras
-         System.out.print ("Documento: \n");
-         //teniendo la informacuib del documento en un array es mas facil manipularlo
-            for (int j = 0 ; j < lineas.size() ; j++){
-                //Saco las lineas del arrayList y se las agno una por una a linea
-                linea = (String)lineas.get(j);
-                //System.out.println(linea + " " + Hash.hashFunction(linea));
-                //creo un array del metodo para que almacene cada una de las palabras por linea
-                /*String separar[] = linea.split(" ");
-                for(String p : separar){
-                    //imprimo para demostrar que si funciona 
-                    System.out.println(p + " " + Math.abs(p.hashCode())%21);
-                }*/
-            }
-    }
-    
-    //y bueno las buenas practicas del programador
-    public File getArchivo() {
-        return archivo;
-    }
-
-    public void setArchivo(File archivo) {
-        this.archivo = archivo;
-    }
-
-    public FileReader getFr() {
-        return fr;
-    }
-
-    public void setFr(FileReader fr) {
-        this.fr = fr;
-    }
-
-    public ArrayList getLineas() {
-        return lineas;
-    }
-
-    public void setLineas(ArrayList lineas) {
-        this.lineas = lineas;
-    }
-
-    public String getLinea() {
-        return linea;
-    }
-
-    public void setLinea(String linea) {
-        this.linea = linea;
-    }
-    
 }

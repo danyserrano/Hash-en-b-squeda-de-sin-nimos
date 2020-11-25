@@ -1,5 +1,6 @@
 package tabla.hash;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -9,14 +10,15 @@ import java.util.ArrayList;
  */
 public class Hash
 {
-    private int cant;
-    private ArrayList<String>[] table;
-    private Archivos file = new Archivos();
-
+    private int cant; //Cantidad de espacios en la tabla Hash
+    private ArrayList<String>[] table;//Tabla Hash
+    private Archivos file; /*Variable de tipo Archivos necesaria
+                             para las operaciones con los archivos*/
     
     //Constructor de la clase Hash
     public Hash()
     {
+        file = new Archivos();
         try{
             //Asignamos a cant la cantidad de espacios que contendrá nuestra tabla Hash
             this.cant = this.calcEspacios();
@@ -60,18 +62,6 @@ public class Hash
         System.out.println("Inicialización Completada.");
         
     }
-     //Set y Get necesarios
-    public int getCant() {
-        return cant;
-    }
-
-    public ArrayList<String>[] getTable() {
-        return table;
-    }
-
-    public void setCant(int cant) {
-        this.cant = cant;
-    }
     
     /*Función HASH
       En base a la cadena que se le envía, calcula una clave especial
@@ -91,6 +81,30 @@ public class Hash
         return (sum%cant);
     }
     
+    /*Método que busca los sinónimos de la palabra que recibe como parámetro*/
+    public ArrayList<String> buscaSinonimos(String palabra) throws IOException, FileNotFoundException
+    {
+        //Obtenemos la posición de las palabras con la misma deficinión en la tabla Hash
+        int index = this.hashFunction(file.leerArchivo(palabra));
+        //Obtenemos la lista de sinónimos
+        ArrayList<String> sinonimos = this.table[index];
+        //Lista auxiliar "palabras"
+        ArrayList<String> palabras = new ArrayList<String>();
+        int p; String aux; //Variables auxiliares
+        
+        /*Bucle que elimina la terminación ".txt" de los nombres de las palabras
+          debido a que, en realidad, extrae el nombre de cada archivo que contenga
+          la misma definición.*/
+        for (int i = 0; i < sinonimos.size(); i++) {
+            p = sinonimos.get(i).lastIndexOf("."); //Posición del caracter '.'
+            aux = sinonimos.get(i).substring(0, p); //Palabra sin la terminación ".txt"
+            if(!aux.equalsIgnoreCase(palabra)) //Se verifica que no sea la misma palabra recibida como parámetro
+                palabras.add(aux); //Se agrega la palabra a la lista auxiliar
+        }
+        //Retornamos la lista de todas las palabras sin la terminación ".txt"
+        return palabras;
+    }
+    
     //Agrega una palabra a la tabla hash en base a su definición
     public void agregaPalabra(String palabra) throws IOException
     {
@@ -98,6 +112,22 @@ public class Hash
         int index = this.hashFunction(file.leerArchivo(palabra));
         this.table[index].add(palabra);
     }
+    
+     //Set y Get necesarios
+    public int getCant() {
+        return cant;
+    }
+
+    public ArrayList<String>[] getTable() {
+        return table;
+    }
+
+    public void setCant(int cant) {
+        this.cant = cant;
+    }
+    
+    
+    //Métodos auxiliares
     
     /*Calcula la cantidad de espacios que debe contener la tabla Hash
       La tabla contendrá la cantidad de espacios igual al siguiente
@@ -108,9 +138,6 @@ public class Hash
     {
         return siguientePrimo(file.cuentaPalabras());
     }
-    
-    
-    //Métodos auxiliares
     
     //Retorna el primer número primo que sigue después del parámetro n
     public static int siguientePrimo(int n)
@@ -134,6 +161,4 @@ public class Hash
         }
         return true;
     }
-
-    
 }
