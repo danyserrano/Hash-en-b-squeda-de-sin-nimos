@@ -15,7 +15,7 @@ public class TablaHash {
         Archivos archivo = new Archivos();
         String[] nombres = archivo.nombreArchivos("m");
         Hash tabla = new Hash();
-        imprimeSinonimos(tabla, "Marisol");
+        imprimeSinonimos(tabla, "adoración");
         //imprimeElementosHash(tabla);
     }
     
