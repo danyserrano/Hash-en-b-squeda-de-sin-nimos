@@ -36,7 +36,7 @@ public class Sinonimo extends javax.swing.JFrame {
         this.setTitle("Sinonimo");
         this.setLocationRelativeTo(Sinonimo.this);
        areaPrueba.setEditable(false);
-
+       txtDefincion.setEditable(false);
     }
 
     public void imprimeSinonimos(Hash tabla, String palabra) {
@@ -217,7 +217,7 @@ public class Sinonimo extends javax.swing.JFrame {
        // areaPrueba.setEditable(false);
         if (!txtPalabra.getText().isEmpty()) {
              Archivos archivo = new Archivos();
-        String[] nombres = archivo.nombreArchivos("m");
+        //String[] nombres = archivo.nombreArchivos("m");
         Hash tabla = new Hash();
         imprimeSinonimos(tabla, txtPalabra.getText());
         String definicion = " ";
@@ -248,6 +248,7 @@ public class Sinonimo extends javax.swing.JFrame {
         // TODO add your handling code here:
         areaPrueba.setText(null);
         txtPalabra.setText(null);
+        txtDefincion.setText(null);
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
