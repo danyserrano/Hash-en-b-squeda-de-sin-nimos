@@ -13,10 +13,9 @@ public class TablaHash {
     public static void main(String[] args) throws IOException
     {
         Archivos archivo = new Archivos();
-        String[] nombres = archivo.nombreArchivos("m");
         Hash tabla = new Hash();
-        imprimeSinonimos(tabla, "adoración");
-        //imprimeElementosHash(tabla);
+        imprimeElementosHash(tabla);
+        imprimeSinonimos(tabla, "inteligencia");
     }
     
     /*Pueden usar este método para guiarse a la hora de
@@ -44,6 +43,7 @@ public class TablaHash {
     
     public static void imprimeElementosHash(Hash tabla)
     {   
+        int p; String aux;
         for (int i = 0; i < tabla.getTable().length; i++)
         {
             if(!tabla.getTable()[i].isEmpty())
@@ -51,7 +51,9 @@ public class TablaHash {
                 System.out.println("Imprimiendo palabras de posición " + i);
                 for (int j = 0; j < tabla.getTable()[i].size(); j++)
                 {
-                    System.out.print(tabla.getTable()[i].get(j) + " - ");
+                    p = tabla.getTable()[i].get(j).lastIndexOf("."); //Posición del caracter '.'
+                    aux = tabla.getTable()[i].get(j).substring(0, p); //Palabra sin la terminación ".txt"
+                    System.out.print(aux + " - ");
                 }
                 System.out.println("\n");
             }else System.out.println("La posición " + i + " no tiene elementos\n");

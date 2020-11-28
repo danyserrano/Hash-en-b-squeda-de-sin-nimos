@@ -1,27 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tabla.hash;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import static tabla.hash.TablaHash.imprimeSinonimos;
 
 /**
  *
- * @author RICARDO SANCHEZ
+ * @author Emerson Rodríguez
  */
 public class Sinonimo extends javax.swing.JFrame {
 
@@ -31,7 +23,7 @@ public class Sinonimo extends javax.swing.JFrame {
      * Creates new form Sinonimo
      */
     public Sinonimo() {
-         this.setContentPane(fon);
+        this.setContentPane(fon);
         initComponents();
         this.setTitle("Sinonimo");
         this.setLocationRelativeTo(Sinonimo.this);
@@ -45,34 +37,30 @@ public class Sinonimo extends javax.swing.JFrame {
             ArrayList<String> sinonimos = tabla.buscaSinonimos(palabra);
             String sinonimo = "";
 
-            System.out.println("\nImprimiendo sinónimos de " + palabra + "\n");
-            //areaPrueba.setText(sinonimos.toString());
-
             //Bucle que imprime cada sinónimo
             for (int i = 0; i < sinonimos.size(); i++) {
                 sinonimo+= sinonimos.get(i)+"\n";
-                //System.out.println(sinonimos.get(i));
-                //areaPrueba.setText(sinonimos.get(i));
-                
             }
             areaPrueba.setText(sinonimo);
             
         } catch (FileNotFoundException e) //Catch por si no existe el archivo
         {
-            System.out.println("\n¡Lo sentimos! No tenemos la palabra " + palabra + " en nuestra base de datos :(");
             areaPrueba.setText("¡Lo sentimos! No tenemos la palabra " + palabra + "\nen nuestra base de datos :(");
         } catch (IOException ex) {
             Logger.getLogger(TablaHash.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void imprimeElementoHash(Hash tabla) {
+    public void imprimeElementoHash(Hash tabla)
+    {
+        int p; String aux;
         for (int i = 0; i < tabla.getTable().length; i++) {
             if (!tabla.getTable()[i].isEmpty()) {
                 System.out.println("Imprimiendo palabras de posición " + i);
                 for (int j = 0; j < tabla.getTable()[i].size(); j++) {
-                    System.out.print(tabla.getTable()[i].get(j) + " - ");
-                    //  txtSinonimo.setText(tabla.getTable()[i].get(j) + " - ");
+                    p = tabla.getTable()[i].get(j).lastIndexOf("."); //Posición del caracter '.'
+                    aux = tabla.getTable()[i].get(j).substring(0, p); //Palabra sin la terminación ".txt"
+                    System.out.print(aux + " - ");
                 }
                 System.out.println("\n");
             } else {
@@ -231,10 +219,6 @@ public class Sinonimo extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(this,"Por favor introduce una palabra");
         }
-       
-        // txtSinonimo.setEnabled(false);
-
-
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

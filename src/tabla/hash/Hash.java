@@ -74,11 +74,24 @@ public class Hash
         
         for (String word : words) {
             /*Se suma el valor absoluto del residuo de dividir el resultado de la
-              función hashCode de la librería String, entre el tamaño de toda la frase*/
-            sum += Math.abs(word.hashCode() % definicion.length());            
+              función hashCode de la librería String, entre la suma de los caracteres ASCII de la palabra*/
+            sum += Math.abs(word.hashCode() / this.sumaChar(word));            
         }
         
         return (sum%cant);
+    }
+    
+    /*Retorna la suma de los caracteres ASCII de la cadena especificada
+      por parámetro*/
+    public int sumaChar(String palabra)
+    {
+        int suma = 0;
+        
+        for (int i = 0; i < palabra.length(); i++) {
+            suma += palabra.codePointAt(i);
+        }
+        
+        return suma;
     }
     
     /*Método que busca los sinónimos de la palabra que recibe como parámetro*/
